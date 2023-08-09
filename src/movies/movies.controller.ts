@@ -62,11 +62,15 @@ export class MoviesController {
   }
 
   @Patch('slug/countOpened/:slug')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('admin')
   updateCountOpened(@Param('slug') slug: string) {
     return this.moviesService.updateCountOpened(slug);
   }
 
   @Patch('slug/update/:slug')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('admin')
   update(
     @Param('slug') slug: string,
     @Body(ValidationPipe) body: UpdateMovieDto,
@@ -75,6 +79,8 @@ export class MoviesController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('admin')
   @HttpCode(HttpStatus.NO_CONTENT)
   delete(@Param('id', ParseObjectID) id: string) {
     return this.moviesService.delete(id);
