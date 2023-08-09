@@ -3,7 +3,7 @@ import { User } from '../schemas/user.schema';
 
 type userType = typeof User;
 
-const CurrentUser = createParamDecorator(
+export const CurrentUser = createParamDecorator(
   (data: userType, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
     return request.user;
