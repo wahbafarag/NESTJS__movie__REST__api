@@ -29,6 +29,7 @@ export class MoviesController {
   @Post()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
+  @HttpCode(HttpStatus.CREATED)
   create(
     @Body(ValidationPipe) body: CreateMovieDto,
     @CurrentUser() user: User,
@@ -37,31 +38,37 @@ export class MoviesController {
   }
 
   @Get()
+  @HttpCode(HttpStatus.OK)
   find(@Query('keyword') keyword: string) {
     return this.moviesService.find(keyword);
   }
 
   @Get('mostPopularMovie')
+  @HttpCode(HttpStatus.OK)
   getMostPopular() {
     return this.moviesService.getMostPopular();
   }
 
   @Get('longestMovies')
+  @HttpCode(HttpStatus.OK)
   getLongestMovie() {
     return this.moviesService.getLongestMovie();
   }
 
   @Get(':id')
+  @HttpCode(HttpStatus.OK)
   findById(@Param('id', ParseObjectID) id: string) {
     return this.moviesService.findById(id);
   }
 
   @Get('slugs/:slug')
+  @HttpCode(HttpStatus.OK)
   findBySlug(@Param('slug') slug: string) {
     return this.moviesService.findBySlug(slug);
   }
 
   @Patch('slug/countOpened/:slug')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
   updateCountOpened(@Param('slug') slug: string) {
@@ -69,6 +76,7 @@ export class MoviesController {
   }
 
   @Patch('slug/update/:slug')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
   update(
