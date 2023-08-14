@@ -54,11 +54,11 @@ export class AuthService {
     return { token: await this.signToken(user.id, this.jwtService) };
   }
 
-  async hashPass(pass: string) {
+  async hashPass(pass: string): Promise<string> {
     return await bcrypt.hash(pass, 12);
   }
 
-  async signToken(userID: string, jwtService: JwtService) {
+  async signToken(userID: string, jwtService: JwtService): Promise<string> {
     const payload = { id: userID };
     return jwtService.sign(payload);
   }

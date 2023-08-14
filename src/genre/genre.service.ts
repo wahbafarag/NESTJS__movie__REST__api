@@ -28,7 +28,7 @@ export class GenreService {
     return collection;
   }
 
-  find(filter?: string) {
+  find(filter?: string): Promise<any> {
     let options = {};
 
     if (filter) {
@@ -50,15 +50,15 @@ export class GenreService {
     return this.genreRepo.find(options).sort({ createdAt: -1 }).exec();
   }
 
-  async findGenreById(filter: any) {
+  async findGenreById(filter: any): Promise<any> {
     return await this.genreRepo.findOne({ _id: filter }).exec();
   }
 
-  async findGenreBySlug(filter: any) {
+  async findGenreBySlug(filter: any): Promise<any> {
     return await this.genreRepo.findOne({ slug: filter }).exec();
   }
 
-  async createGenre(data: CreateGenreDto) {
+  async createGenre(data: CreateGenreDto): Promise<any> {
     const newGenre = await this.genreRepo.create(data);
     newGenre.slug = slugify(newGenre.name, { lower: true });
     const movie = await this.movieService.findById(data.movie);
@@ -67,7 +67,7 @@ export class GenreService {
     return await newGenre.save();
   }
 
-  async updateGenreById(filter: any, data: UpdateGenreDto) {
+  async updateGenreById(filter: any, data: UpdateGenreDto): Promise<any> {
     let slug: string;
     if (data.name) {
       slug = slugify(data.name, { lower: true });
@@ -80,7 +80,7 @@ export class GenreService {
     return this.genreRepo.updateOne({ _id: filter }, { ...data, slug });
   }
 
-  async updateGenreBySlug(filter: any, data: UpdateGenreDto) {
+  async updateGenreBySlug(filter: any, data: UpdateGenreDto): Promise<any> {
     let slug: string;
     if (data.name) {
       slug = slugify(data.name, { lower: true });
@@ -92,7 +92,7 @@ export class GenreService {
     return this.genreRepo.updateOne({ slug: filter }, { ...data, slug });
   }
 
-  async deleteGenreById(filter: any) {
+  async deleteGenreById(filter: any): Promise<any> {
     const genre = await this.genreRepo.findOne({ _id: filter });
     if (!genre) {
       throw new NotFoundException('Genre not found');
@@ -100,7 +100,7 @@ export class GenreService {
     return this.genreRepo.deleteOne({ _id: filter });
   }
 
-  async deleteGenreBySlug(filter: any) {
+  async deleteGenreBySlug(filter: any): Promise<any> {
     const genre = await this.genreRepo.findOne({ slug: filter });
     if (!genre) {
       throw new NotFoundException('Genre not found');

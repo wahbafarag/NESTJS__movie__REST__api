@@ -27,11 +27,13 @@ export class GenreController {
   @Post()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
+  @HttpCode(HttpStatus.CREATED)
   create(@Body(ValidationPipe) body: CreateGenreDto) {
     return this.genreService.createGenre(body);
   }
 
   @Get('collection')
+  @HttpCode(HttpStatus.OK)
   collectionOfMoviesByGenre() {
     return this.genreService.collectionOfMoviesByGenre();
   }
@@ -39,6 +41,7 @@ export class GenreController {
   @Get()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
+  @HttpCode(HttpStatus.OK)
   find(@Query('filter') filter: string) {
     return this.genreService.find(filter);
   }
@@ -46,6 +49,7 @@ export class GenreController {
   @Get(':id')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
+  @HttpCode(HttpStatus.OK)
   findById(@Param('id', ParseObjectID) id: string) {
     return this.genreService.findGenreById(id);
   }
@@ -53,6 +57,7 @@ export class GenreController {
   @Get('BySlug/:slug')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
+  @HttpCode(HttpStatus.OK)
   findBySlug(@Param('slug') slug: string) {
     return this.genreService.findGenreBySlug(slug);
   }
@@ -60,6 +65,7 @@ export class GenreController {
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
+  @HttpCode(HttpStatus.OK)
   updateById(
     @Param('id', ParseObjectID) id: string,
     @Body(ValidationPipe) body: UpdateGenreDto,
@@ -69,6 +75,7 @@ export class GenreController {
 
   @Patch('bySlug/:slug')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @HttpCode(HttpStatus.OK)
   @Roles('admin')
   updateBySlug(
     @Param('slug') slug: string,
