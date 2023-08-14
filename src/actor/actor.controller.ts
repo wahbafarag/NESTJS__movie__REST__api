@@ -27,17 +27,20 @@ export class ActorController {
   @Post()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
+  @HttpCode(HttpStatus.CREATED)
   create(@Body(ValidationPipe) actor: CreateActorDto) {
     return this.actorService.create(actor);
   }
 
   @Get()
   @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
   find(@Query() filter: any) {
     return this.actorService.find(filter);
   }
 
   @Get('slug')
+  @HttpCode(HttpStatus.OK)
   findBySlug(@Query('slug') slug: string) {
     return this.actorService.findBySlug(slug);
   }
@@ -45,6 +48,7 @@ export class ActorController {
   @Get(':id')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
+  @HttpCode(HttpStatus.OK)
   findById(@Param('id', ParseObjectID) id: string) {
     return this.actorService.findByActorId(id);
   }
@@ -52,6 +56,7 @@ export class ActorController {
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
+  @HttpCode(HttpStatus.OK)
   updateByActorId(
     @Body() actor: UpdateActorDto,
     @Param('id', ParseObjectID) id: string,
@@ -62,6 +67,7 @@ export class ActorController {
   @Patch('bySlug/slug')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
+  @HttpCode(HttpStatus.OK)
   updateBySlug(@Body() actor: UpdateActorDto, @Query('slug') slug: string) {
     return this.actorService.updateBySlug(slug, actor);
   }
