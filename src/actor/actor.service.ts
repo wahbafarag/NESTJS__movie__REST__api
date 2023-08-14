@@ -22,19 +22,22 @@ export class ActorService {
     return newActor;
   }
 
-  async find(filter: any) {
+  async find(filter: any): Promise<Actor[]> {
     return await this.actorRepo.find(filter);
   }
 
-  async findBySlug(slug: string) {
+  async findBySlug(slug: string): Promise<Actor> {
     return await this.actorRepo.findOne({ slug });
   }
 
-  async findByActorId(actorID: string) {
+  async findByActorId(actorID: string): Promise<Actor> {
     return await this.actorRepo.findOne({ _id: actorID });
   }
 
-  async updateByActorId(actorID: string, actor: UpdateActorDto) {
+  async updateByActorId(
+    actorID: string,
+    actor: UpdateActorDto,
+  ): Promise<Actor> {
     let slug: string;
     if (actor.name) {
       slug = slugify(actor.name, { lower: true });
@@ -45,7 +48,7 @@ export class ActorService {
     );
   }
 
-  async updateBySlug(slug: string, actor: UpdateActorDto) {
+  async updateBySlug(slug: string, actor: UpdateActorDto): Promise<Actor> {
     if (actor.name) {
       throw new BadRequestException(
         'You cannot change the name of the actor , to change the name hit this route /actor/:actorID',
@@ -54,11 +57,11 @@ export class ActorService {
     return await this.actorRepo.findOneAndUpdate({ slug }, actor);
   }
 
-  async deleteByActorId(actorID: string) {
+  async deleteByActorId(actorID: string): Promise<void> {
     return await this.actorRepo.delete({ _id: actorID });
   }
 
-  async deleteBySlug(slug: string) {
+  async deleteBySlug(slug: string): Promise<void> {
     return await this.actorRepo.delete({ slug });
   }
 }
