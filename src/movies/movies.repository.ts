@@ -1,6 +1,6 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Movie } from './schemas/movie.schema';
 import { CreateMovieDto } from './dtos/create-movie.dto';
 import slugify from 'slugify';
@@ -19,7 +19,7 @@ export class MoviesRepository {
     return newMovie;
   }
 
-  async find(keyword: string) {
+  async find(keyword?: any) {
     let options = {};
 
     if (keyword) {
@@ -70,6 +70,39 @@ export class MoviesRepository {
       { $inc: { countOpened: 1, new: true } },
     );
   }
+
+  // movies based on genres
+  findGenres(ids: Types.ObjectId[]) {
+    return this.moviesModel.find({
+      genres: { $in: ids },
+    });
+  }
+
+  // movie based on actor
+  findByActor(id: Types.ObjectId) {
+    return this.moviesModel.find({
+      actors: { $in: id },
+    });
+  }
+
+  // New Pattern
+
+  async findOneAndUpdate(filter: any, update: any) {
+    return this.moviesModel.findOneAndUpdate(filter, update, {
+      new: true,
+      runValidators: true,
+    });
+  }
+
+  async findAll() {
+    return this.moviesModel
+      .find({ likes: { $gt: 0 } })
+      .sort({ likes: -1 })
+      .limit(15)
+      .exec();
+  }
+
+  // New Pattern
 
   async update(slug: string, movie: UpdateMovieDto) {
     if (!(await this.moviesModel.findOne({ slug })))

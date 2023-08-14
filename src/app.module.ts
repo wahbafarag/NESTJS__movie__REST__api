@@ -5,6 +5,9 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MoviesModule } from './movies/movies.module';
+import { ActorModule } from './actor/actor.module';
+import { RatingModule } from './rating/rating.module';
+import { GenreModule } from './genre/genre.module';
 import * as process from 'process';
 
 @Module({
@@ -13,6 +16,9 @@ import * as process from 'process';
     UsersModule,
     AuthModule,
     MoviesModule,
+    ActorModule,
+    RatingModule,
+    GenreModule,
   ],
   controllers: [AppController],
   providers: [AppService],

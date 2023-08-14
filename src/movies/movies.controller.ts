@@ -21,6 +21,7 @@ import { User } from '../users/schemas/user.schema';
 import { AuthGuard } from '@nestjs/passport';
 import { ParseObjectID } from '../pipes/parse-object-id.pipe';
 import { UpdateMovieDto } from './dtos/update-movie.dto';
+import { Types } from 'mongoose';
 
 @Controller('movies')
 export class MoviesController {
@@ -67,12 +68,51 @@ export class MoviesController {
     return this.moviesService.findBySlug(slug);
   }
 
+  @Get('movies/topLikedMovie')
+  @HttpCode(HttpStatus.OK)
+  topLikedMovie() {
+    return this.moviesService.topLikedMovie();
+  }
+
+  // movie based on genres
+  @Get('movies/moviesByGenre')
+  @HttpCode(HttpStatus.OK)
+  moviesByGenre(@Body() body: { genresIds: string[] }) {
+    const { genresIds } = body;
+    const objectIds = genresIds.map((id) => new Types.ObjectId(id));
+    return this.moviesService.moviesByGenre(objectIds);
+  }
+
+  // movie based on actor
+  @Get('movies/moviesByActor')
+  @HttpCode(HttpStatus.OK)
+  moviesByActor(@Body() body: { actorId: Types.ObjectId }) {
+    const { actorId } = body;
+    return this.moviesService.moviesByActor(new Types.ObjectId(actorId));
+  }
+
   @Patch('slug/countOpened/:slug')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
   updateCountOpened(@Param('slug') slug: string) {
     return this.moviesService.updateCountOpened(slug);
+  }
+
+  @Patch('slug/countLiked')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('user')
+  updateCountLiked(@Query('slug') slug: string) {
+    return this.moviesService.incrementLikesByOne(slug);
+  }
+
+  @Patch('slug/countDisLiked')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('admin')
+  incrementDislikesByOne(@Query('slug') slug: string) {
+    return this.moviesService.incrementDislikesByOne(slug);
   }
 
   @Patch('slug/update/:slug')
