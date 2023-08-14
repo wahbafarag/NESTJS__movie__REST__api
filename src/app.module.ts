@@ -8,6 +8,7 @@ import { MoviesModule } from './movies/movies.module';
 import { ActorModule } from './actor/actor.module';
 import { RatingModule } from './rating/rating.module';
 import { GenreModule } from './genre/genre.module';
+import { FilesModule } from './files/files.module';
 import * as process from 'process';
 
 @Module({
@@ -19,6 +20,7 @@ import * as process from 'process';
     ActorModule,
     RatingModule,
     GenreModule,
+    FilesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
