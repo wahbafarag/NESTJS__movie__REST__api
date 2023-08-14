@@ -9,7 +9,7 @@ import { Types } from 'mongoose';
 export class MoviesService {
   constructor(private moviesRepository: MoviesRepository) {}
 
-  async getMostPopular() {
+  async getMostPopular(): Promise<Movie[]> {
     return await this.moviesRepository.getMostPopular();
   }
 
@@ -17,7 +17,7 @@ export class MoviesService {
     return await this.moviesRepository.getLongestMovie();
   }
 
-  async incrementLikesByOne(slug: string) {
+  async incrementLikesByOne(slug: string): Promise<Movie> {
     return await this.moviesRepository.findOneAndUpdate(
       { slug },
       {
@@ -26,7 +26,7 @@ export class MoviesService {
     );
   }
 
-  async incrementDislikesByOne(slug: string) {
+  async incrementDislikesByOne(slug: string): Promise<Movie> {
     return await this.moviesRepository.findOneAndUpdate(
       { slug },
       {
@@ -39,15 +39,15 @@ export class MoviesService {
     return await this.moviesRepository.findAll();
   }
 
-  async moviesByGenre(genresID: Types.ObjectId[]) {
+  async moviesByGenre(genresID: Types.ObjectId[]): Promise<Movie[]> {
     return this.moviesRepository.findGenres(genresID);
   }
 
-  async moviesByActor(actorsID: Types.ObjectId) {
+  async moviesByActor(actorsID: Types.ObjectId): Promise<Movie[]> {
     return this.moviesRepository.findByActor(actorsID);
   }
 
-  async updateCountOpened(slug: string) {
+  async updateCountOpened(slug: string): Promise<Movie> {
     return await this.moviesRepository.updateCountOpened(slug);
   }
 
@@ -55,23 +55,23 @@ export class MoviesService {
     return await this.moviesRepository.create(movie);
   }
 
-  async find(keyword: string) {
+  async find(keyword: string): Promise<Movie[]> {
     return await this.moviesRepository.find(keyword);
   }
 
-  async findById(id: any) {
+  async findById(id: any): Promise<Movie> {
     return await this.moviesRepository.findById(id);
   }
 
-  async findBySlug(slug: string) {
+  async findBySlug(slug: string): Promise<Movie> {
     return await this.moviesRepository.findBySlug(slug);
   }
 
-  async update(slug: string, movie: UpdateMovieDto) {
+  async update(slug: string, movie: UpdateMovieDto): Promise<Movie> {
     return await this.moviesRepository.update(slug, movie);
   }
 
-  async delete(id: string) {
+  async delete(id: string): Promise<void> {
     return this.moviesRepository.delete(id);
   }
 }

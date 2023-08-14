@@ -13,7 +13,7 @@ export class RatingService {
     private movieService: MoviesService,
   ) {}
 
-  async movieAverageRating(movieId: string) {
+  async movieAverageRating(movieId: string): Promise<any> {
     const avgRate = await this.ratingRepo.movieAverageRating(movieId);
     const movie = await this.movieService.findById(movieId);
     movie.averageRating = avgRate.avgRating;
@@ -50,7 +50,7 @@ export class RatingService {
     return this.ratingRepo.findByIdAndDelete(id);
   }
 
-  async find() {
+  async find(): Promise<Rating[]> {
     return this.ratingRepo.find();
   }
 }

@@ -64,6 +64,10 @@ export class Movie {
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Rating' }] })
   ratings?: Rating[];
+
+  async save() {
+    await this.save();
+  }
 }
 
 export const movieSchema = SchemaFactory.createForClass(Movie);

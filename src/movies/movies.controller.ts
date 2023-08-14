@@ -58,12 +58,16 @@ export class MoviesController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('admin')
   findById(@Param('id', ParseObjectID) id: string) {
     return this.moviesService.findById(id);
   }
 
   @Get('slugs/:slug')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('admin')
   findBySlug(@Param('slug') slug: string) {
     return this.moviesService.findBySlug(slug);
   }
@@ -110,7 +114,7 @@ export class MoviesController {
   @Patch('slug/countDisLiked')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('admin')
+  @Roles('user')
   incrementDislikesByOne(@Query('slug') slug: string) {
     return this.moviesService.incrementDislikesByOne(slug);
   }
