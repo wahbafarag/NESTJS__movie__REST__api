@@ -32,13 +32,16 @@
     - User Authentication , Authorization , Roles Limitations
     - File Uploads
     - Controller , Service , Repo Pattern
+
     - ########################################################
-    - Movies
+
+    - Movies , Rating , Genres
         * Get Most Popular Movies , Longest Movies , Top Liked Movies 
         * Movies By Genre , Movies By Actor
         * Incrementing Movie Count Opened
-        * Like , Dislike Movie
-    - 
+        * Like , Dislike Movie , Average Rating
+        * Getting all Genres and all movies related to each genre
+        * Movie By Actor
 
 ## Installation
 
